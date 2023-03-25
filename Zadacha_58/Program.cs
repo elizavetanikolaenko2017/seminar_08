@@ -8,34 +8,69 @@
 15 18
 */
 
-int ReadInt(string text)       /////1-   задаем тип числа
-{
- Console.Write(text);
- return Convert.ToInt32(Console.ReadLine());
-}
+int m= InputNumbers("Введите число строк первой матрицы: ");
+int n= InputNumbers("Введите столбцов первой матрицы и строк второй матрицы: ");
+int p=InputNumbers("Введите число столбцов второй матрицы: ");
+int range= InputNumbers("Введите диапазон чисел от 1 до ");
 
-int[,]GenerateMatrix(int m, int n)     /// 2  создаем шаблон матрицы
-{ 
-   int[,]matrix=new int[m,n];
-   Random rand=new Random();
-   for (int i = 0; i < matrix.GetLength(0); i++)
-   {
-    for (int j = 0; j < matrix.GetLength(1); j++)
-    {
-       matrix[i,j]=new Random().Next(1,10); 
-    }
-   } 
-   return matrix;
-}
+int[,] firstMatrix= new int[m,n];
+CreateArray(firstMatrix);
+Console.WriteLine($"\n Первая матрица: ");
+WriteArray(firstMatrix);
 
- void int[,] FirstMatrix(int[,]matrix)
+int[,] secondMatrix= new int[n,p];
+CreateArray(secondMatrix);
+System.Console.WriteLine($"\n Вторая матрица: ");
+WriteArray(secondMatrix);
+int[,] resultMatrix=new int[m,p];
+
+MultiMatrix(firstMatrix,secondMatrix,resultMatrix);
+Console.WriteLine($"\n Произведение первой и второй матриц: ");
+WriteArray(resultMatrix);
+
+void MultiMatrix(int[,] firstMatrix, int[,] secondMatrix,int[,] resultMatrix)
 {
-    for (int i = 0; i <matrix.GetLength(0); i++)
+ for (int i = 0; i < resultMatrix.GetLength(0); i++)
+ {
+  for (int j = 0; j < resultMatrix.GetLength(1); j++)
+  {
+    int sum=0;
+    for (int k = 0; k < firstMatrix.GetLength(1); k++)
     {
-        for (int j = 0; j < matrix.GetLength(1); j++)
-        {
-          matrix[i,j]=*matrix[i,j] 
-          
-        }
+      sum+= firstMatrix[i,k]* secondMatrix[k,j];
     }
+    resultMatrix[i,j]=sum;
+  }
+ }
 }
+ int InputNumbers(string input)
+ {
+  Console.Write(input);
+  int output =Convert.ToInt32(Console.ReadLine());
+  return output;
+ }
+
+ void CreateArray(int[,]array)
+ {
+  for (int i = 0; i < array.GetLength(0); i++)
+  {
+    for (int j = 0; j< array.GetLength(1); j++)
+    {
+      array[i,j]= new Random().Next(range);
+    }
+  }
+ }
+
+ void WriteArray(int[,]array)
+ {
+  for (int i = 0; i < array.GetLength(0); i++)
+  {
+    for (int j = 0; j < array.GetLength(1); j++)
+    {
+     Console.Write(array[i,j]+ " "); 
+    }
+    Console.WriteLine();
+  }
+ }
+
+
